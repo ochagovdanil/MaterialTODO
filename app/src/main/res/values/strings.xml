@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">MaterialTODO</string>
+
+    <!-- Titles -->
+    <string name="main_activity_title">My tasks</string>
+    <string name="edit_task_activity_title">Edit task</string>
+    <string name="new_task_activity_title">Add task</string>
+
+    <!-- Menu Items -->
+    <string name="edit_task_menu_item_save">Save</string>
+    <string name="main_menu_item_delete_all">Delete all tasks</string>
+
+    <!-- Hints -->
+    <string name="edit_task_edit_text_hint_task_title">Title</string>
+    <string name="edit_task_edit_text_hint_task_description">Description</string>
+
+    <!-- Dialogs -->
+    <string name="ask_dialog_title">Confirm the action</string>
+    <string name="ask_dialog_description">Do you really want to delete all tasks?</string>
+
+    <!-- Another stuff -->
+    <string name="main_activity_todo_empty">Oops! You don\'t have \n any todo list today.</string>
+</resources>
