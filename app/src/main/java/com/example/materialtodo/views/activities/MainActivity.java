@@ -11,7 +11,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,8 +22,6 @@ import com.example.materialtodo.models.Task;
 import com.example.materialtodo.viewmodels.MainActivityViewModel;
 import com.example.materialtodo.views.fragments.AskDialogFragment;
 import com.google.android.material.snackbar.Snackbar;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -121,12 +118,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void retrieveData() {
-        mViewModel.retrieveAllTasks().observe(this, new Observer<List<Task>>() {
-            @Override
-            public void onChanged(List<Task> tasks) {
-                showRecyclerView(tasks.size() != 0);
-                mAdapter.submitList(tasks); // get all tasks from SQLite
-            }
+        mViewModel.retrieveAllTasks().observe(this, tasks -> {
+            showRecyclerView(tasks.size() != 0);
+            mAdapter.submitList(tasks); // get all tasks from SQLite
         });
     }
 
@@ -151,25 +145,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addNewTask() {
-        findViewById(R.id.floating_button_add_task).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, NewTaskActivity.class);
-                startActivityForResult(intent, NEW_TASK_REQUEST_CODE);
-            }
+        findViewById(R.id.floating_button_add_task).setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, NewTaskActivity.class);
+            startActivityForResult(intent, NEW_TASK_REQUEST_CODE);
         });
     }
 
     private void editTask() {
-        mAdapter.setOnItemClickListener(new TasksListAdapter.OnItemClickListener() {
-            @Override
-            public void onClick(Task task) {
-                Intent intent = new Intent(MainActivity.this, EditTaskActivity.class);
-                intent.putExtra(EditTaskActivity.EXTRA_ID, task.getId());
-                intent.putExtra(EditTaskActivity.EXTRA_TITLE, task.getTitle());
-                intent.putExtra(EditTaskActivity.EXTRA_DESCRIPTION, task.getDescription());
-                startActivityForResult(intent, EDIT_TASK_REQUEST_CODE);
-            }
+        mAdapter.setOnItemClickListener(task -> {
+            Intent intent = new Intent(MainActivity.this, EditTaskActivity.class);
+            intent.putExtra(EditTaskActivity.EXTRA_ID, task.getId());
+            intent.putExtra(EditTaskActivity.EXTRA_TITLE, task.getTitle());
+            intent.putExtra(EditTaskActivity.EXTRA_DESCRIPTION, task.getDescription());
+            startActivityForResult(intent, EDIT_TASK_REQUEST_CODE);
         });
     }
 
@@ -191,11 +179,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void showSnackbarMessage(String msg) {
         Snackbar.make(findViewById(R.id.main_activity_layout), msg, Snackbar.LENGTH_SHORT)
-                .setAction("Ok", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                    }
-                }).show(); // for user messages
+            .setAction("Ok", view -> {
+            }).show(); // for user messages
     }
 
     private void showToastMessage(String msg) {
@@ -206,12 +191,6 @@ public class MainActivity extends AppCompatActivity {
         AskDialogFragment dialog = new AskDialogFragment();
         dialog.show(getSupportFragmentManager(), ASK_DIALOG_TAG);
 
-        dialog.setOnPositiveButtonClickListener(
-                new AskDialogFragment.OnPositiveButtonClickListener() {
-            @Override
-            public void actionConfirmed() {
-                deleteAllTasks();
-            }
-        });
+        dialog.setOnPositiveButtonClickListener(this::deleteAllTasks);
     }
 }

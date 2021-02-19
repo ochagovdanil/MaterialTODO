@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -79,10 +78,7 @@ public class EditTaskActivity extends AppCompatActivity {
 
     private void showSnackbarMessage(String msg) {
         Snackbar.make(findViewById(R.id.edit_task_layout), msg, Snackbar.LENGTH_SHORT)
-                .setAction("Ok", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                    }
-                }).show();
+            .setAction("Ok", view -> {
+            }).show();
     }
 }

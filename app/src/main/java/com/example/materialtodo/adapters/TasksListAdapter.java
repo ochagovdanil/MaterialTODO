@@ -69,14 +69,11 @@ public class TasksListAdapter extends ListAdapter<Task, TasksListAdapter.TasksVi
 
             // edit task
             itemView.findViewById(R.id.item_task_layout)
-                    .setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+                .setOnClickListener(view -> {
                     if (listener != null) {
                         listener.onClick(getItem(getAdapterPosition()));
                     }
-                }
-            });
+                });
         }
     }
 
