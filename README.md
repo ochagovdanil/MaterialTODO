@@ -4,6 +4,7 @@ _Here is it_
 <div align="center">
   <img src="screenshots/screenshot-1.png" width="330px" />
   <img src="screenshots/screenshot-2.png" width="330px" />
+  <img src="screenshots/screenshot-3.png" width="330px" />
 </div> <br />
 
 _MaterialTODO - a simple MVVM TODO application._
