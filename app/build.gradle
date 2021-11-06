@@ -34,12 +34,14 @@ ext {
     room = '2.2.5'
     recyclerview = '1.1.0'
     materialdesign = '1.2.0'
+    swiperefreshlayout = '1.1.0'
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "androidx.appcompat:appcompat:$appcompat"
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayout"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayout"
     implementation "androidx.recyclerview:recyclerview:$recyclerview"
     implementation "com.google.android.material:material:$materialdesign"
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle"

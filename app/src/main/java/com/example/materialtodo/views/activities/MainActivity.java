@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.materialtodo.R;
 import com.example.materialtodo.adapters.TasksListAdapter;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private TasksListAdapter mAdapter;
     private TextView mTextEmptyList;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         setTitle(R.string.main_activity_title);
 
         mTextEmptyList = findViewById(R.id.text_view_empty_todo);
+        mSwipeRefreshLayout = findViewById(R.id.main_swipe_refresh_layout);
 
         initRecyclerView();
         initViewModel();
@@ -100,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         swipeItemToDeleteTask();
         addNewTask();
         editTask();
+        swipeToRefresh();
     }
 
     private void initRecyclerView() {
@@ -163,8 +167,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void deleteAllTasks() {
         mViewModel.deleteAllTasks();
-
         showSnackbarMessage("All tasks deleted");
+    }
+
+    private void swipeToRefresh() {
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+            refreshList();
+
+            if (mSwipeRefreshLayout.isRefreshing())
+                mSwipeRefreshLayout.setRefreshing(false);
+        });
+    }
+
+    private void refreshList() {
+        mAdapter.submitList(null); // clear only adapter list (not SQLite data)!
+        retrieveData();
     }
 
     private void showRecyclerView(boolean is) {
